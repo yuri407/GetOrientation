@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
                     SensorManager.getOrientation(R, values);
 
-                    if((int) radian2Degree(values[0]) == 180) {
+                    if ((int) radian2Degree(values[0]) == 180) {
                         Toast.makeText(MainActivity.this, "180", Toast.LENGTH_SHORT);
-                    } else if((int) radian2Degree(values[0]) == -180) {
+                    } else if ((int) radian2Degree(values[0]) == -180) {
                         Toast.makeText(MainActivity.this, "-180", Toast.LENGTH_SHORT);
                     }
 
@@ -75,8 +75,21 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.registerListener(listener, magSensor, SensorManager.SENSOR_DELAY_UI);
         sensorManager.registerListener(listener, accSensor, SensorManager.SENSOR_DELAY_UI);
     }
+        @Override
+        protected void onPause() {
+            super.onPause();
+            sensorManager.unregisterListener(listener);
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            sensorManager.registerListener(listener, magSensor,SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(listener, accSensor, SensorManager.SENSOR_DELAY_UI);
+        }
 
     private  float radian2Degree(float radian) {
+
         return radian * 180 / (float) Math.PI;
     }
 }
